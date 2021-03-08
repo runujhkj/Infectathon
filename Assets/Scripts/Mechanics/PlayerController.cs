@@ -17,6 +17,8 @@ namespace Infectathon.Mechanics
         private bool stopJump;
         public Collider2D collider2d;
         public bool controlEnabled = true;
+        public LayerMask climbable;
+        public float distance;
 
         bool jump;
         Vector2 move;
@@ -24,6 +26,9 @@ namespace Infectathon.Mechanics
         Rigidbody2D rb2d;
         internal Animator animator;
         readonly InfectathonModel model = Simulation.GetModel<InfectathonModel>();
+        private bool isClimbing;
+        private float inputHorizontal;
+        private float inputVertical;
 
         private void Awake()
         {
@@ -45,6 +50,7 @@ namespace Infectathon.Mechanics
             if (controlEnabled)
             {
                 move.x = Input.GetAxis("Horizontal");
+                move.y = Input.GetAxis("Vertical");
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
                 else if (Input.GetButtonUp("Jump"))
@@ -58,6 +64,7 @@ namespace Infectathon.Mechanics
                 move.x = 0;
             }
             UpdateJumpState();
+            UpdateClimbState();
             base.Update();
         }
 
@@ -90,6 +97,37 @@ namespace Infectathon.Mechanics
                     break;
             }
         }
+        
+        void UpdateClimbState()
+        {
+            if (Physics2D.Raycast(transform.position, Vector2.right, distance, climbable).collider != null)
+            {
+                if (Input.GetButtonDown("Up"))
+                {
+                    isClimbing = true;
+                }
+                else
+                {
+                    isClimbing = false;
+                }
+            }
+            else if (Physics2D.Raycast(transform.position, Vector2.left, distance, climbable).collider != null)
+            {
+                if (Input.GetButtonDown("Up"))
+                {
+                    isClimbing = true;
+                }
+                else
+                {
+                    isClimbing = false;
+                }
+            }
+            else
+            {
+                isClimbing = false;
+            }
+        }
+
         protected override void ComputeVelocity()
         {
             if (jump && IsGrounded)
@@ -104,6 +142,17 @@ namespace Infectathon.Mechanics
                 {
                     velocity.y = velocity.y * model.jumpDeceleration;
                 }
+            }
+            
+            if (isClimbing)
+            {
+                Debug.Log("Is climbing");
+                velocity = new Vector2(velocity.x, move.y * maxSpeed * .5f);
+                rb2d.gravityScale = 0f;
+            }
+            else
+            {
+                rb2d.gravityScale = 1f;
             }
 
             animator.SetBool("grounded", IsGrounded);
