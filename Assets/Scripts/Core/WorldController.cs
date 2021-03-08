@@ -7,11 +7,15 @@ public class WorldController : MonoBehaviour
 {
     private GameObject levelFinished;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         levelFinished = GameObject.FindGameObjectWithTag("Finish");
         levelFinished.SetActive(false);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
     }
 
     // Update is called once per frame
