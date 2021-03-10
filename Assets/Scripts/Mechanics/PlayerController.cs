@@ -10,15 +10,22 @@ namespace Infectathon.Mechanics
 {
     public class PlayerController : KinematicObject
     {
+        public AudioClip jumpAudio;
+        public AudioClip respawnAudio;
+        public AudioClip ouchAudio;
+        
         public float maxSpeed = 7;
         public float jumpTakeOffSpeed = 7;
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
         public Collider2D collider2d;
+        public AudioSource audioSource;
         public bool controlEnabled = true;
         public LayerMask climbable;
         public float distance;
+
+        public Health health;
 
         bool jump;
         Vector2 move;
@@ -26,6 +33,7 @@ namespace Infectathon.Mechanics
         Rigidbody2D rb2d;
         internal Animator animator;
         readonly InfectathonModel model = Simulation.GetModel<InfectathonModel>();
+        public Bounds Bounds => collider2d.bounds;
         private bool isClimbing;
         private float inputHorizontal;
         private float inputVertical;
@@ -33,6 +41,7 @@ namespace Infectathon.Mechanics
         private void Awake()
         {
             rb2d = GetComponentInChildren<Rigidbody2D>();
+            audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();

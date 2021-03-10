@@ -101,10 +101,10 @@ public class EnemyAI : MonoBehaviour {
 
     private void FindTarget() {
         float targetRange = 50f;
-        if (Vector3.Distance(transform.position, Player.Instance.GetPosition()) < targetRange) {
+        /*if (Vector3.Distance(transform.position, Player.Instance.GetPosition()) < targetRange) {
             // Player within target range
             state = State.ChaseTarget;
-        }
+        }*/
     }
 
 }

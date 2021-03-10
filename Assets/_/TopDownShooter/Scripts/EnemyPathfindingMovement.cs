@@ -97,7 +97,7 @@ public class EnemyPathfindingMovement : MonoBehaviour {
         
         //Debug.LogFormat("thing: {0}", gpi.ToString(), GridPathfinding.instance, GetPosition(), targetPosition);
 
-        pathVectorList = GridPathfinding.instance.GetPathRouteWithShortcuts(GetPosition(), targetPosition).pathVectorList;
+        //pathVectorList = GridPathfinding.instance.GetPathRouteWithShortcuts(GetPosition(), targetPosition).pathVectorList;
         pathfindingTimer = .2f;
         pathVectorList = new List<Vector3> { targetPosition };
 
