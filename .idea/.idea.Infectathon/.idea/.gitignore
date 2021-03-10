@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/contentModel.xml
+/modules.xml
+/.idea.Infectathon.iml
+# Datasource local storage ignored files
+/../../../../../../../../:\Unity\GameDesign\Game2\Infectathon\.idea\.idea.Infectathon\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
