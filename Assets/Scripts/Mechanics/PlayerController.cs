@@ -22,7 +22,7 @@ namespace Infectathon.Mechanics
         public Collider2D collider2d;
         public AudioSource audioSource;
         public bool controlEnabled = true;
-        public LayerMask climbable;
+        public LayerMask climbable, standable;
         public float distance;
 
         public Health health;
@@ -34,12 +34,15 @@ namespace Infectathon.Mechanics
         internal Animator animator;
         readonly InfectathonModel model = Simulation.GetModel<InfectathonModel>();
         public Bounds Bounds => collider2d.bounds;
+        private bool isGrounded;
         private bool isClimbing;
         private float inputHorizontal;
         private float inputVertical;
+        private Vector3 startScale;
 
         private void Awake()
         {
+            startScale = this.transform.localScale;
             rb2d = GetComponentInChildren<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<Collider2D>();
@@ -56,6 +59,9 @@ namespace Infectathon.Mechanics
         // Update is called once per frame
         protected override void Update()
         {
+            RaycastHit2D raycastHit2d = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0f, Vector2.down, 1f, standable);
+            isGrounded = (raycastHit2d.collider != null);
+            //Debug.LogFormat("thing: {0}", isGrounded);
             if (controlEnabled)
             {
                 move.x = Input.GetAxis("Horizontal");
@@ -88,14 +94,14 @@ namespace Infectathon.Mechanics
                     stopJump = false;
                     break;
                 case JumpState.Jumping:
-                    if (!IsGrounded)
+                    if (!isGrounded)
                     {
                         Schedule<PlayerJumped>().player = this;
                         jumpState = JumpState.InFlight;
                     }
                     break;
                 case JumpState.InFlight:
-                    if (IsGrounded)
+                    if (isGrounded)
                     {
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
@@ -139,10 +145,11 @@ namespace Infectathon.Mechanics
 
         protected override void ComputeVelocity()
         {
-            if (jump && IsGrounded)
+            if (jump && isGrounded)
             {
                 velocity.y = jumpTakeOffSpeed * model.jumpModifier;
                 jump = false;
+                animator.SetBool("jump", true);
             }
             else if (stopJump)
             {
@@ -151,11 +158,12 @@ namespace Infectathon.Mechanics
                 {
                     velocity.y = velocity.y * model.jumpDeceleration;
                 }
+                animator.SetBool("jump", false);
             }
             
             if (isClimbing)
             {
-                Debug.Log("Is climbing");
+                //Debug.Log("Is climbing");
                 velocity = new Vector2(velocity.x, move.y * maxSpeed * .5f);
                 rb2d.gravityScale = 0f;
             }
@@ -164,7 +172,12 @@ namespace Infectathon.Mechanics
                 rb2d.gravityScale = 1f;
             }
 
-            animator.SetBool("grounded", IsGrounded);
+            if (move.x > 0.01f)
+                this.transform.localScale = new Vector3((startScale.x > 0 ? startScale.x : -startScale.x), startScale.y, startScale.z);
+            else if (move.x < -0.01f)
+                this.transform.localScale = new Vector3(-(startScale.x > 0 ? startScale.x : -startScale.x), startScale.y, startScale.z);
+
+            animator.SetBool("grounded", isGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
             targetVelocity = move * maxSpeed;
