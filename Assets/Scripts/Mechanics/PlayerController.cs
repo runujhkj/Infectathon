@@ -22,7 +22,7 @@ namespace Infectathon.Mechanics
         public Collider2D collider2d;
         public AudioSource audioSource;
         public bool controlEnabled = true;
-        public LayerMask climbable, standable;
+        public LayerMask climbable;
         public float distance;
 
         public Health health;
@@ -59,8 +59,6 @@ namespace Infectathon.Mechanics
         // Update is called once per frame
         protected override void Update()
         {
-            RaycastHit2D raycastHit2d = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0f, Vector2.down, 1f, standable);
-            isGrounded = (raycastHit2d.collider != null);
             //Debug.LogFormat("thing: {0}", isGrounded);
             if (controlEnabled)
             {

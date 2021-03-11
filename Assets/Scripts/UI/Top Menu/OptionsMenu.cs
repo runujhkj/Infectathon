@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
  
 public class OptionsMenu : MonoBehaviour {
+    public GameObject mainMenu;
+    public GameObject optionsMenu;
     public Slider musicVolumeSlider;
     public Slider effectsVolumeSlider;
  
@@ -14,8 +16,15 @@ public class OptionsMenu : MonoBehaviour {
     public void updateMusicVolume() {
         PlayerPrefs.SetFloat("MusicVolume", musicVolumeSlider.value);
     }
- 
-    public void updateEffectsVolume() {
+
+    public void updateEffectsVolume()
+    {
         PlayerPrefs.SetFloat("EffectsVolume", effectsVolumeSlider.value);
+    }
+
+    public void Back() 
+    {
+        mainMenu.SetActive(true);
+        optionsMenu.SetActive(false);
     }
 }

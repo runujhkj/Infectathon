@@ -1,5 +1,6 @@
 using Infectathon.Core;
 using Infectathon.Mechanics;
+using UnityEngine;
 
 namespace Infectathon.Gameplay
 {
@@ -13,7 +14,7 @@ namespace Infectathon.Gameplay
 
         public override void Execute()
         {
-
+            Debug.Log("Landed");
         }
     }
 }

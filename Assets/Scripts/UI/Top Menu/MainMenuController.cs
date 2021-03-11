@@ -7,7 +7,8 @@ public class MainMenuController : MonoBehaviour
     public GameObject optionsMenu;
 
     public void PlayGame() {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Lvl1demo");
+        SceneManager.UnloadSceneAsync("Mainmenu");
     }
  
     public void Options() 
