@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 using System.Collections;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 //TODO Хотелось бы сделать красивее инспектор, только не знаю что именно красить то..)
 
@@ -116,7 +118,7 @@ public class ChainEditor : Editor
     }
 
 
-    public override void OnInspectorGUI()
+    /*public override void OnInspectorGUI()
     {
         //DrawDefaultInspector();
 
@@ -342,7 +344,7 @@ public class ChainEditor : Editor
                 if (Event.current.type != EventType.DragPerform) // иначе ошибка... ArgumentException: GUILayout: Mismatched LayoutGroup.DragPerform  БАГ?
                 {
                     string prefabNames = t.namePrefabsWitoutColliders();
-                    if (prefabNames.Length != 0)
+                    if (prefabNames.Count() != 0)
                         EditorGUILayout.HelpBox("Some prefabs of chain link do not have colliders2d" + prefabNames, MessageType.Warning);
                 }
                 //----------------------------------------------------------
@@ -404,6 +406,7 @@ public class ChainEditor : Editor
 
         }
     }
+    #1#
 
 
     void OnInspectorUpdate()
@@ -491,9 +494,9 @@ public class ChainEditor : Editor
         t.B.transform.position = posB;
 
         //новая фишка - быстрая привязка. Нажимает на цепь и любой объект и возле А и В появляются маркеры, кликнув по которым А или В перемещается в позицию второго выделенного объекта. Но маркер какой-то не красивый, надо бы заменить на что-то более наглядное, может кнопку.
-        if (Selection.transforms.Length == 2)
+        if (Selection.transforms.Count() == 2)
         {
-            int chainInd = Array.IndexOf(Selection.transforms, t.gameObject.transform);
+            int chainInd = 1;//Array.IndexOf(Selection.transforms, t.gameObject.transform);
             int secondInd;
             if (chainInd != -1)
             {
@@ -570,3 +573,4 @@ public class ChainEditor : Editor
     }
 
 }
+*/

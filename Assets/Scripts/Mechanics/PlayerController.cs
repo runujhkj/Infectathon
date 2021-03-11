@@ -42,6 +42,7 @@ namespace Infectathon.Mechanics
 
         private void Awake()
         {
+            HealthBar.SetHealthBarValue(100f);
             startScale = this.transform.localScale;
             rb2d = GetComponentInChildren<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();

@@ -40,6 +40,8 @@ namespace Infectathon.Mechanics
                 ev.player = player;
                 ev.enemy = this;
             }
+
+            HealthBar.SetHealthBarValue(HealthBar.GetHealthBarValue() - .25f);
         }
 
         void Update()
